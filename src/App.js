@@ -18,6 +18,10 @@ function App() {
   */
   const [contacts, setContacts] = useState([]);
   const [appointments, setAppointments] = useState([]);
+
+  const addContact = (name, phone, email) => {
+    setContacts((prev) => [...prev, { name, phone, email }]);
+  };
   /*
   Implement functions to add data to
   contacts and appointments
@@ -26,11 +30,12 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        <Route index element={<Navigate to={ROUTES.CONTACTS} replace />} />
+        {/* <Route index element={<Navigate to={ROUTES.CONTACTS} replace />} /> */}
         <Route
           path={ROUTES.CONTACTS}
-          element={<ContactsPage /> /* Add props to ContactsPage */}
+          element={<ContactsPage contacts={contacts} addContact={addContact} />}
         />
+
         <Route
           path={ROUTES.APPOINTMENTS}
           element={<AppointmentsPage /> /* Add props to AppointmentsPage */}

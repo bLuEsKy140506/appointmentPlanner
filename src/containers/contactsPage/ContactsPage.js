@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ContactForm } from "../../components/contactForm/ContactForm";
 import { TileList } from "../../components/tileList/TileList";
 
-export const ContactsPage = () => {
+export const ContactsPage = ({ contacts, addContact }) => {
   /*
   Define state variables for 
   contact info and duplicate check
@@ -12,31 +12,26 @@ export const ContactsPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
-  const [contacts, setContacts] = useState([]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     /*
     Add contact info and clear data
     if the contact name is not a duplicate
     */
-    if (!isDuplicate) {
-      setContacts((prev) => [
-        ...prev,
-        { name: name, phone: phone, email: email },
-      ]);
-      setName("");
-      setPhone("");
-      setEmail("");
-    }
+    addContact({ name, phone, email });
   };
 
   /*
   Using hooks, check for contact name in the
   contacts array variable in props
   */
+
   useEffect(() => {
     const duplicate = contacts.some(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+      (contact) =>
+        typeof contact.name === "string" &&
+        contact.name.toLowerCase() === name.toLowerCase()
     );
     setIsDuplicate(duplicate);
   }, [name, contacts]);
@@ -52,7 +47,6 @@ export const ContactsPage = () => {
         setEmail={setEmail}
         handleSubmit={handleSubmit}
       />
-
       <TileList
         items={contacts}
         title="Contacts"

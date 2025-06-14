@@ -17,14 +17,22 @@ export const AppointmentsPage = ({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [isDuplicate, setIsDuplicate] = useState(false);
-
+  const [contact, setContact] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     /*
     Add contact info and clear data
     if the contact name is not a duplicate
     */
-    addAppointment({ title, date, time });
+    if (!isDuplicate) {
+      addAppointment({ title, date, time, contact });
+    } else {
+      alert("Appointment title already exists. Please use a different title.");
+      setTitle("");
+      setDate("");
+      setTime("");
+      setContact("");
+    }
   };
   useEffect(() => {
     const duplicate = appointments.some(
@@ -46,17 +54,19 @@ export const AppointmentsPage = ({
           setDate={setDate}
           time={time}
           setTime={setTime}
+          contact={contact}
+          setContact={setContact}
           handleSubmit={handleSubmit}
         />
       </section>
       <hr />
       <section>
-        {/* <TileList
+        <TileList
           items={appointments}
           title="Appointments"
           itemType="appointment"
           isDuplicate={isDuplicate}
-        /> */}
+        />
       </section>
     </div>
   );

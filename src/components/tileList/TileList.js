@@ -1,18 +1,18 @@
 import React from "react";
-// import { Tile } from "../tile/Tile";
+import { Tile } from "../tile/Tile";
 
-export function TileList({ items, title, itemType }) {
+export function TileList({ items, title, isDuplicate }) {
+  console.log("TileList items:", items);
   return (
-    <div>
+    <div className="tile-list">
       <h2>{title}</h2>
-      <div className="tile-list">
+      <div className="tile-list-items">
         {items.map((item, index) => (
-          <div key={index} className="tile">
-            <h3>{item.name}</h3>
-            <p>{item.phone}</p>
-            <p>{item.email}</p>
-            {/* Add more item properties as needed */}
-          </div>
+          <Tile
+            key={`${title}-${index}`}
+            item={item}
+            isDuplicate={isDuplicate}
+          />
         ))}
       </div>
     </div>

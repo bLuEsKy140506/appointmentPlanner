@@ -19,7 +19,14 @@ export const ContactsPage = ({ contacts, addContact }) => {
     Add contact info and clear data
     if the contact name is not a duplicate
     */
-    addContact({ name, phone, email });
+    if (!isDuplicate) {
+      addContact({ name, phone, email });
+    } else {
+      alert("Contact name already exists. Please use a different name.");
+      setName("");
+      setPhone("");
+      setEmail("");
+    }
   };
 
   /*
@@ -35,6 +42,7 @@ export const ContactsPage = ({ contacts, addContact }) => {
     );
     setIsDuplicate(duplicate);
   }, [name, contacts]);
+  console.log("duplicate:", isDuplicate);
 
   return (
     <div>
@@ -47,12 +55,7 @@ export const ContactsPage = ({ contacts, addContact }) => {
         setEmail={setEmail}
         handleSubmit={handleSubmit}
       />
-      <TileList
-        items={contacts}
-        title="Contacts"
-        itemType="contact"
-        isDuplicate={isDuplicate}
-      />
+      <TileList items={contacts} isDuplicate={isDuplicate} />
     </div>
   );
 };
